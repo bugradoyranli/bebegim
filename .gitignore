@@ -1,0 +1,17 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Environment
+.env
+
+# MacOS
+.DS_Store
+
+# Flutter/Mobile
+.dart_tool/
+build/
+.packages

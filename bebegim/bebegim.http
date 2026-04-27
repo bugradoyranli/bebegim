@@ -1,0 +1,6 @@
+@bebegim_HostAddress = http://localhost:5038
+
+GET {{bebegim_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,11 @@
+services:
+  api:
+    build: .
+    container_name: bebegim-api
+    ports:
+      - "5555:8080" # Dışarıdan 5000 portuyla erişeceğiz
+    env_file:
+      - .env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=${DATABASE_URL}
