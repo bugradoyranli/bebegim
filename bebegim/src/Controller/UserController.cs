@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bebegim.Data;
 using bebegim.Models;
+using BCrypt.Net;
 namespace bebegim.Controller;
 
 [ApiController]
@@ -29,8 +30,9 @@ public class UserController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] UserLoginDto request)
     {
+        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
         var user = await dbContext.Users
-            .FirstOrDefaultAsync(u => u.Email == request.Email);
+            .FirstOrDefaultAsync(u => u.Email == request.Email && u.PasswordHash == hashedPassword);
 
         if (user == null )
         {
@@ -51,13 +53,14 @@ public class UserController : ControllerBase
         {
             return BadRequest("Email already in use");
         }
+        var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
 
         var user = new User()
         {
             Name = request.Name,
             Surname = request.Surname,
             Email = request.Email,
-            PasswordHash = request.PasswordHash
+            PasswordHash = passwordHash
         };
 
         dbContext.Users.Add(user);
