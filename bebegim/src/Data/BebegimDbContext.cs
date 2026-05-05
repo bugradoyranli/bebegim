@@ -14,6 +14,8 @@ public class BebegimDbContext : DbContext
     public DbSet<Allergy> Allergies { get; set; }
     public DbSet<Illness> Illnesses { get; set; }
 
+    public DbSet<Food> Foods { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

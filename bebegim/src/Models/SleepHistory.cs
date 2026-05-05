@@ -12,7 +12,7 @@ namespace bebegim.Models
         [Required]
         public DateTime StartTime { get; set; } // Uykuya dalma saati
 
-        [Required]
+        
         public DateTime EndTime { get; set; } // Uyanma saati
 
         public DateTime AddedDate { get; set; } = DateTime.UtcNow;

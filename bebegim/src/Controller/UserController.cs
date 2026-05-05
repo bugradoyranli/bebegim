@@ -72,9 +72,8 @@ public class UserController : ControllerBase
     [HttpGet("add-kid-to-user")]
     public async Task<IActionResult> AddKidToUser(int userId, Kid kid)
     {
-        
-
-
+ 
+ 
         dbContext.Kids.Add(kid);
         await dbContext.SaveChangesAsync();
 
