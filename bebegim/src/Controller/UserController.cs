@@ -69,16 +69,5 @@ public class UserController : ControllerBase
         return Ok(new { message = "Registration successful" });
     }
 
-    [HttpGet("add-kid-to-user")]
-    public async Task<IActionResult> AddKidToUser(int userId, Kid kid)
-    {
- 
- 
-        dbContext.Kids.Add(kid);
-        await dbContext.SaveChangesAsync();
-
-        // Burada user-kid ilişkisi kurulacak (örneğin, bir UserKids tablosu olabilir)
-        return Ok(new { message = "Kid added to user successfully" });
-    }
 
 }

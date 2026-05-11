@@ -15,8 +15,7 @@ namespace bebegim.Models
         [MaxLength(500)]
         public string? Description { get; set; }
 
-        [Required]
-        public DateTime PlannedDate { get; set; } // Planlanan aşı tarihi
+        public DateTime? PlannedDate { get; set; } // Planlanan aşı tarihi
 
         public DateTime? HappenedDate { get; set; } // Opsiyonel: Yapıldıysa bu tarih dolar
 

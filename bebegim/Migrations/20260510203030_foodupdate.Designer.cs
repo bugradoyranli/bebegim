@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using bebegim.Data;
@@ -11,9 +12,11 @@ using bebegim.Data;
 namespace bebegim.Migrations
 {
     [DbContext(typeof(BebegimDbContext))]
-    partial class BebegimDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260510203030_foodupdate")]
+    partial class foodupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -221,7 +224,7 @@ namespace bebegim.Migrations
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("EndTime")
+                    b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("KidId")
@@ -295,7 +298,7 @@ namespace bebegim.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)");
 
-                    b.Property<DateTime?>("PlannedDate")
+                    b.Property<DateTime>("PlannedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");

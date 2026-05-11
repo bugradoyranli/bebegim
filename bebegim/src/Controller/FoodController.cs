@@ -20,6 +20,13 @@ namespace bebegim.Controllers
             _context = context;
         }
 
+
+        /// <summary>
+///Custom yemek eklemek için kullanılır. 
+/// </summary>
+
+
+
         [HttpPost("Create")]
         public async Task<IActionResult> CreateFood([FromBody] FoodCreateDto dto)
         {
@@ -29,7 +36,7 @@ namespace bebegim.Controllers
             var food = new Food
             {
                 KidId = dto.KidId,
-                Name = dto.Name,
+                Name = dto.Name, 
                 Description = dto.Description,
                 AddedDate = DateTime.UtcNow
             };
@@ -39,7 +46,12 @@ namespace bebegim.Controllers
 
             return Ok(new { message = "Yiyecek başarıyla eklendi.", id = food.Id });
         }
-  
+
+                /// <summary>
+///Bebek için eklenmiş tüm yiyecekleri getirir.
+/// </summary>
+
+
 
         [HttpGet("List/{kidId}")]
         public async Task<ActionResult<IEnumerable<Food>>> GetFoodList(int kidId)

@@ -1,6 +1,7 @@
 using bebegim.Exceptions;
 using bebegim.Data;
 using DotNetEnv;
+using System.Reflection; // Bunu en üste ekleyin
 using Microsoft.EntityFrameworkCore;
 
 Env.Load();
@@ -16,6 +17,13 @@ builder.Services.AddControllers();
 // Swagger üreticisi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    // XML dosyasının yolunu bul ve Swagger'a dahil et
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+    options.IncludeXmlComments(xmlPath);
+});
 
 builder.Services.AddDbContext<BebegimDbContext>(options =>
     options.UseNpgsql(connectionString));

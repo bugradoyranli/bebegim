@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using bebegim.Data;
 
+
 namespace bebegim.Controllers
 {
     [Route("api/[controller]")]
@@ -21,7 +22,13 @@ namespace bebegim.Controllers
         }
 
         // 1. Standart Beslenme Kaydı (Var olan bir yiyeceği seçince)
-        [HttpPost("Record")]
+
+             /// <remarks>
+/// var olan yemekleri seçerek beslenme kaydı oluşturmak için kullanılır.
+/// FoodId ve KidId gönderilmesi zorunludur. Amount, Unit, Detail ve Date isteğe bağlıdır.
+/// Date gönderilmezse kaydın oluşturulduğu tarih ve saat atanır.
+/// </remarks>
+        [HttpPost("record")]
         public async Task<IActionResult> CreateFeedingRecord([FromBody] FeedingRecordDto recordDto)
         {
             if (!ModelState.IsValid)
@@ -43,13 +50,26 @@ namespace bebegim.Controllers
                 await _context.SaveChangesAsync();
 
                 return Ok(new { message = "Kayıt başarıyla eklendi.", id = history.Id });
-            
 
         }
 
-        // 2. Yeni Özel Yemek Oluşturma ve Kaydetme
-        // Kullanıcı yeni bir yemek adı ve açıklama girince burası çalışır
-        [HttpPost("RecordCustom")]
+
+
+/// <summary>
+///Yeni bir yemek tanımlayarak beslenme kaydı oluşturmak için kullanılır.
+/// </summary>
+
+
+
+         /// <remarks>
+/// 
+///
+///     Yemek adı daha önce bu çocuk için eklenmemişse yeni bir yemek oluşturulur, ardından beslenme kaydı eklenir.
+/// 
+/// FoodName ve KidId gönderilmesi zorunludur. Description, Amount, Unit, Detail ve Date isteğe bağlıdır.
+/// Date gönderilmezse kaydın oluşturulduğu tarih ve saat atanır.
+/// </remarks>
+        [HttpPost("custom-record")]
         public async Task<IActionResult> CreateCustomFeedingRecord([FromBody] CustomFeedingRecordDto customDto)
         {
             if (!ModelState.IsValid)
@@ -61,7 +81,7 @@ namespace bebegim.Controllers
                 .FirstOrDefaultAsync(); 
               
                   
-
+                FoodController foodController = new FoodController(_context);
                 // Eğer yiyecek yoksa yeni oluştur
                 if (food == null)
                 {
@@ -97,17 +117,23 @@ namespace bebegim.Controllers
         }
 
 
-               // 4. Günlük Geçmiş (Bugün)
-        [HttpGet("DailyHistory/{kidId}")]
+/// <summary>
+/// bugüne özel beslenme geçmişini getirir. Eğer bugün için kayıt yoksa boş liste döner. 
+/// </summary>
+
+
+        [HttpGet("daily-history/{kidId}")]
         public async Task<ActionResult<IEnumerable<object>>> GetDailyHistory(int kidId)
         {
             var today = DateTime.UtcNow.Date;
             return await FetchHistoryByDate(kidId, today);
         }
 
-        // 5. Belirli Bir Güne Göre Geçmişi Getirme
-        // Örn: api/Food/History/5/2023-10-25
-        [HttpGet("GetHistoryByDate/{kidId}/{date}")]
+/// <summary>
+/// belirli bir tarihe özel beslenme geçmişini getirir. Eğer o tarih için kayıt yoksa boş liste döner. 
+/// </summary>
+      
+        [HttpGet("get-history-by-date/{kidId}/{date}")]
         public async Task<ActionResult<IEnumerable<object>>> GetHistoryByDate(int kidId, DateTime date)
         {
             return await FetchHistoryByDate(kidId, date.Date);
